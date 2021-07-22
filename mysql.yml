@@ -1,0 +1,24 @@
+---
+- hosts: "{{ node }}"
+  become: yes
+  #uncomment following if you want to run anible on same machine and keep node=localhost in ansible-playbook cmd
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: "delete docker container mysql if present"
+      shell: "docker rm -f mysql"
+      ignore_errors: true
+
+    - name: "delete docker image mysql if already present"
+      shell: "docker rmi mysql"
+      ignore_errors: true
+
+    - name: "Build docker image mysql"
+      shell: "docker build --no-cache -t mysql -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.mysql ."
+
+    - name: "Run docker image mysql"
+      shell: "docker run -d --name mysql mysql"
+
+# to run this playbook, change node and package_name value wrt yours
+#for mysql
+#ansible-playbook mysql.yml -i hosts -e "node=localhost package_name=mysql"

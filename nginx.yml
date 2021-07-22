@@ -1,0 +1,27 @@
+---
+- hosts: "{{ node }}"
+  become: yes
+  #uncomment following if you want to run anible on same machine and keep node=localhost in ansible-playbook cmd
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: "delete docker container nginx if present"
+      shell: "docker rm -f nginx"
+      ignore_errors: true
+
+    - name: "delete docker image nginx if already present"
+      shell: "docker rmi nginx"
+      ignore_errors: true
+
+    - name: "Build docker image nginx"
+      shell: "docker build --no-cache -t nginx -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.nginx ."
+
+    - name: "Run docker image nginx"
+      shell: "docker run -d -p 8084:80 --name nginx nginx"
+
+
+# to run this playbook, change node and package_name value wrt yours
+#for nginx
+#ansible-playbook nginx.yml -i hosts -e "node=localhost"
+#to see nginx
+#http://127.0.0.1:8084/

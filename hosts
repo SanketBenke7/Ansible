@@ -1,0 +1,24 @@
+[webservers]
+192.168.1.1
+
+[appservers]
+192.168.1.2
+
+[dbservers]
+192.168.1.3
+
+# uncomment following and fill according to your requirements if you need
+# [webservers:vars]
+# ansible_connection=ssh
+# ansible_user=ubuntu
+# ansible_ssh_private_key_file=/home/ubuntu/webservers.pem
+#
+# [appservers:vars]
+# ansible_connection=ssh
+# ansible_user=ubuntu
+# ansible_ssh_private_key_file=/home/ubuntu/appservers.pem
+#
+# [dbservers:vars]
+# ansible_connection=ssh
+# ansible_user=ubuntu
+# ansible_ssh_private_key_file=/home/ubuntu/dbservers.pem

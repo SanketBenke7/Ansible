@@ -1,0 +1,26 @@
+---
+- hosts: "{{ node }}"
+  become: yes
+  #uncomment following if you want to run anible on same machine and keep node=localhost in ansible-playbook cmd
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: "delete docker container tomcat if present"
+      shell: "docker rm -f tomcat"
+      ignore_errors: true
+
+    - name: "delete docker image tomcat if already present"
+      shell: "docker rmi tomcat"
+      ignore_errors: true
+
+    - name: "Build docker image tomcat"
+      shell: "docker build --no-cache -t tomcat -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.tomcat ."
+
+    - name: "Run docker image tomcat"
+      shell: "docker run -d -p 8085:8080 --name tomcat tomcat"
+
+# to run this playbook, change node and package_name value wrt yours
+#for tomcat
+#ansible-playbook tomcat.yml -i hosts -e "node=localhost"
+#to see tomcat
+#http://127.0.0.1:8085/

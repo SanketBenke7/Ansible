@@ -1,0 +1,24 @@
+---
+- hosts: "{{ node }}"
+  become: yes
+  #uncomment following if you want to run anible on same machine and keep node=localhost in ansible-playbook cmd
+  connection: local
+  gather_facts: yes
+  tasks:
+    - name: "delete docker container java if present"
+      shell: "docker rm -f java"
+      ignore_errors: true
+
+    - name: "delete docker image java if already present"
+      shell: "docker rmi java"
+      ignore_errors: true
+
+    - name: "Build docker image java"
+      shell: "docker build --no-cache -t java -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.java ."
+
+    - name: "Run docker image java"
+      shell: "docker run -d --name java java"
+
+# to run this playbook, change node and package_name value wrt yours
+#for java
+#ansible-playbook java.yml -i hosts -e "node=localhost"

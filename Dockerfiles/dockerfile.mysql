@@ -3,3 +3,8 @@ FROM ubuntu:18.04
 RUN apt-get -y update
 RUN apt-get install -y mysql-server
 CMD service mysql start && tail -f /dev/null
+
+#to go inside container
+#docker exec -it mysql bash
+#run following cmd for mysql
+#>mysql

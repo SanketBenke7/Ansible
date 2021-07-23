@@ -5,6 +5,12 @@
   connection: local
   gather_facts: yes
   tasks:
+    - name: "copy dockerfile to server {{ node }}"
+      copy:
+        #change source address wrt your dockerfile location
+        src: /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.java
+        dest: /tmp/dockerfile.java
+
     - name: "delete docker container java if present"
       shell: "docker rm -f java"
       ignore_errors: true
@@ -14,7 +20,7 @@
       ignore_errors: true
 
     - name: "Build docker image java"
-      shell: "docker build --no-cache -t java -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.java ."
+      shell: "cd /tmp && docker build --no-cache -t java -f dockerfile.java ."
 
     - name: "Run docker image java"
       shell: "docker run -d --name java java"

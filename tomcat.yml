@@ -5,6 +5,17 @@
   connection: local
   gather_facts: yes
   tasks:
+    - name: "copy dockerfile to server {{ node }}"
+      copy:
+        #change source address wrt your dockerfile location
+        src: /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.tomcat
+        dest: /tmp/dockerfile.tomcat
+
+    - name: "copy war file to server {{ node }}"
+      copy:
+        src: /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/sample.war
+        dest: /tmp/sample.war
+
     - name: "delete docker container tomcat if present"
       shell: "docker rm -f tomcat"
       ignore_errors: true
@@ -14,7 +25,7 @@
       ignore_errors: true
 
     - name: "Build docker image tomcat"
-      shell: "cd /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles && docker build --no-cache -t tomcat -f dockerfile.tomcat ."
+      shell: "cd /tmp && docker build --no-cache -t tomcat -f dockerfile.tomcat ."
 
     - name: "Run docker image tomcat"
       shell: "docker run -d -p 8085:8080 --name tomcat tomcat"

@@ -5,6 +5,12 @@
   connection: local
   gather_facts: yes
   tasks:
+    - name: "copy dockerfile to server {{ node }}"
+      copy:
+        #change source address wrt your dockerfile location
+        src: /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.mysql
+        dest: /tmp/dockerfile.mysql
+
     - name: "delete docker container mysql if present"
       shell: "docker rm -f mysql"
       ignore_errors: true
@@ -14,7 +20,7 @@
       ignore_errors: true
 
     - name: "Build docker image mysql"
-      shell: "docker build --no-cache -t mysql -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.mysql ."
+      shell: "cd /tmp && docker build --no-cache -t mysql -f dockerfile.mysql ."
 
     - name: "Run docker image mysql"
       shell: "docker run -d --name mysql mysql"

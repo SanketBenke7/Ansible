@@ -5,6 +5,12 @@
   connection: local
   gather_facts: yes
   tasks:
+    - name: "copy dockerfile to server {{ node }}"
+      copy:
+        #change source address wrt your dockerfile location
+        src: /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.nginx
+        dest: /tmp/dockerfile.nginx
+
     - name: "delete docker container nginx if present"
       shell: "docker rm -f nginx"
       ignore_errors: true
@@ -14,7 +20,7 @@
       ignore_errors: true
 
     - name: "Build docker image nginx"
-      shell: "cd /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles && docker build --no-cache -t nginx -f dockerfile.nginx ."
+      shell: "cd /tmp && docker build --no-cache -t nginx -f dockerfile.nginx ."
 
     - name: "Run docker image nginx"
       shell: "docker run -d -p 8084:80 --name nginx nginx"

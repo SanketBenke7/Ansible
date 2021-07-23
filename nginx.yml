@@ -14,7 +14,7 @@
       ignore_errors: true
 
     - name: "Build docker image nginx"
-      shell: "docker build --no-cache -t nginx -f /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles/dockerfile.nginx ."
+      shell: "cd /home/hp1/Desktop/AnsibleDockerProject/Dockerfiles && docker build --no-cache -t nginx -f dockerfile.nginx ."
 
     - name: "Run docker image nginx"
       shell: "docker run -d -p 8084:80 --name nginx nginx"

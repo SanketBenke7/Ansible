@@ -1,0 +1,7 @@
+  
+FROM ubuntu:18.04
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+
+#docker build --no-cache -t ubuntu -f dockerfile.ubuntu .
+#docker run -d --name ubuntu ubuntu
